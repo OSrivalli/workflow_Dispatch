@@ -23,7 +23,7 @@ jobs:
       with:
         ref: refs/heads/${{ github.event.inputs.branch }}  # Specify the branch to check out
 		
-	- name: Checkout the branch
+    - name: Checkout the branch
       run: |
         echo "Before fetch all"
         pwd
