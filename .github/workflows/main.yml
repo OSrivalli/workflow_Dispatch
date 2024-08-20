@@ -1,0 +1,23 @@
+name: Manual Trigger with Branch Input
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'The branch to deploy'
+        required: true
+        default: 'main'
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ github.event.inputs.branch }}  # Use the branch input
+
+    - name: Print branch name
+      run: echo "Deploying branch: ${{ github.event.inputs.branch }}"
