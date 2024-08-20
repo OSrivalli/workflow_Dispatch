@@ -27,10 +27,10 @@ jobs:
         BRANCH_NAME=${{ github.event.inputs.branch }}
 
         # Check if the branch exists
-        if git show-ref --quiet refs/heads/${BRANCH_NAME}; then
-          echo "Branch ${BRANCH_NAME} exists."
+        if git show-ref --quiet refs/heads/${{ BRANCH_NAME }}; then
+          echo "Branch ${{ BRANCH_NAME }} exists."
         else
-          echo "Branch ${BRANCH_NAME} does not exist."
+          echo "Branch ${{ BRANCH_NAME }} does not exist."
           exit 1
         fi
           
