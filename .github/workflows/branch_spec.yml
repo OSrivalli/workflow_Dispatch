@@ -22,7 +22,7 @@ jobs:
       run: |
         # Fetch all branches from the remote repository
         echo "Before fetch all"
-        sh "pwd"
+        pwd
         git fetch --all
         echo "After fetch all"
 
