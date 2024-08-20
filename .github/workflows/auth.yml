@@ -16,7 +16,7 @@ jobs:
   list_merged_prs:
     runs-on: ubuntu-latest
     env:
-      GH_TOKEN: ${{ github.token }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
     steps:
     - name: Checkout code
@@ -28,11 +28,7 @@ jobs:
         echo "deb [arch=amd64 signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list
         sudo apt update
         sudo apt install gh
-
-    - name: Authenticate GitHub CLI
-      run: |
-        gh auth login --with-token < $GH_TOKEN
-        
+      
     - name: Get list of merged PRs
       id: get_prs
       run: |
