@@ -24,13 +24,13 @@ jobs:
         git fetch --all
 
         # Define the branch to check
-        BRANCH_NAME=${{ github.event.inputs.branch }}
-        echo "branch is : ${BRANCH_NAME}"
+        #BRANCH_NAME=${{ github.event.inputs.branch }}
+        #echo "branch is : ${BRANCH_NAME}"
         # Check if the branch exists
-        if git show-ref --quiet refs/heads/${{ BRANCH_NAME }}; then
-          echo "Branch ${{ BRANCH_NAME }} exists."
+        if git show-ref --quiet refs/heads/${{ github.event.inputs.branch }}; then
+          echo "Branch ${{ github.event.inputs.branch }} exists."
         else
-          echo "Branch ${{ BRANCH_NAME }} does not exist."
+          echo "Branch ${{ github.event.inputs.branch }} does not exist."
           exit 1
         fi
           
