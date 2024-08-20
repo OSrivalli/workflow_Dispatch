@@ -22,21 +22,6 @@ jobs:
       uses: actions/checkout@v3
       with:
         ref: refs/heads/${{ github.event.inputs.branch }}  # Specify the branch to check out
-
-    - name: Checkout the branch
-      run: |
-        echo "Before fetch all"
-        pwd
-        ls -al
-        git fetch --all
-        echo "After fetch all"
-        # Check if the branch exists
-        if git show-ref --quiet refs/heads/${{ github.event.inputs.branch }}; then
-          echo "Branch ${{ github.event.inputs.branch }} exists."
-        else
-          echo "Branch ${{ github.event.inputs.branch }} does not exist."
-          exit 1
-        fi
     
     - name: print
       run: |
