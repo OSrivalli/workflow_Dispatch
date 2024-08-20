@@ -21,11 +21,10 @@ jobs:
     - name: Check if branch exists
       run: |
         # Fetch all branches from the remote repository
+        echo "Before fetch all"
         git fetch --all
+        echo "After fetch all"
 
-        # Define the branch to check
-        #BRANCH_NAME=${{ github.event.inputs.branch }}
-        #echo "branch is : ${BRANCH_NAME}"
         # Check if the branch exists
         if git show-ref --quiet refs/heads/${{ github.event.inputs.branch }}; then
           echo "Branch ${{ github.event.inputs.branch }} exists."
