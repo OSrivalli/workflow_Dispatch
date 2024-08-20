@@ -43,6 +43,7 @@ jobs:
             --head ${{ github.event.inputs.compare_branch }} \
             --json number,title,url \
             --jq '.[] | "PR #\(.number): \(.title) (\(.url))"' > merged-prs.txt
+        cat merged-prs.txt
 
     - name: Upload merged PRs text file
       uses: actions/upload-artifact@v3
