@@ -18,6 +18,22 @@ jobs:
       run: |
         echo "Deploying branch: ${{ github.event.inputs.branch }}"
 
+    - name: Check if branch exists
+      run: |
+        # Fetch all branches from the remote repository
+        git fetch --all
+
+        # Define the branch to check
+        BRANCH_NAME=${{ github.event.inputs.branch }}
+
+        # Check if the branch exists
+        if git show-ref --quiet refs/heads/${BRANCH_NAME}; then
+          echo "Branch ${BRANCH_NAME} exists."
+        else
+          echo "Branch ${BRANCH_NAME} does not exist."
+          exit 1
+        fi
+          
     - name: Checkout the branch
       uses: actions/checkout@v3
       with:
