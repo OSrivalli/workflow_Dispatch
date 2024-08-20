@@ -1,0 +1,28 @@
+name: sync branch (working)
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'The branch to deploy'
+        required: true
+        default: 'main'
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Print branch name
+      run: |
+        echo "Deploying branch: ${{ github.event.inputs.branch }}"
+
+    - name: Checkout the branch
+      uses: actions/checkout@v3
+      with:
+        ref: refs/heads/${{ github.event.inputs.branch }}  # Specify the branch to check out
+    
+    - name: print
+      run: |
+        cat hello.txt
