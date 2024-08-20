@@ -1,0 +1,52 @@
+name: List Merged PRs auth.yml
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_branch:
+        description: 'Base branch'
+        required: true
+        default: 'main'
+      compare_branch:
+        description: 'Compare branch'
+        required: true
+        default: 'develop'
+
+jobs:
+  list_merged_prs:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install GitHub CLI
+      run: |
+        curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /usr/share/keyrings/githubcli-archive-keyring.gpg
+        echo "deb [arch=amd64 signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list
+        sudo apt update
+        sudo apt install gh
+
+    - name: Authenticate GitHub CLI
+      run: |
+        gh auth login --with-token < ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Get list of merged PRs
+      id: get_prs
+      run: |
+        # Fetch input variables
+        base_branch="${{ github.event.inputs.base_branch }}"
+        compare_branch="${{ github.event.inputs.compare_branch }}"
+
+        # List PRs that are merged into the base branch from the compare branch
+        gh pr list \
+            --state merged \
+            --base ${{ github.event.inputs.base_branch }} \
+            --head ${{ github.event.inputs.compare_branch }} \
+            --json number,title,url \
+            --jq '.[] | "PR #\(.number): \(.title) (\(.url))"' > merged-prs.txt
+
+    - name: Upload merged PRs text file
+      uses: actions/upload-artifact@v3
+      with:
+        name: merged-prs
+        path: merged_prs.txt
